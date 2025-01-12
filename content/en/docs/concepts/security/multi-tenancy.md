@@ -286,12 +286,12 @@ workloads running in a shared cluster. Running workloads in a sandbox environmen
 insulate the host from container escapes, where an attacker exploits a vulnerability to gain
 access to the host system and all the processes/files running on that host.
 
-Virtual machines and userspace kernels are 2 popular approaches to sandboxing. The following
+Virtual machines and userspace kernels are two popular approaches to sandboxing. The following
 sandboxing implementations are available:
 
 * [gVisor](https://gvisor.dev/) intercepts syscalls from containers and runs them through a
   userspace kernel, written in Go, with limited access to the underlying host.
-* [Kata Containers](https://katacontainers.io/) is an OCI compliant runtime that allows you to run
+* [Kata Containers](https://katacontainers.io/) provide a secure container runtime that allows you to run
   containers in a VM. The hardware virtualization available in Kata offers an added layer of
   security for containers running untrusted code.
 
@@ -462,8 +462,10 @@ listed below.
 
 #### Multi-team tenancy
 
+{{% thirdparty-content %}}
+
 * [Capsule](https://github.com/clastix/capsule)
-* [Kiosk](https://github.com/loft-sh/kiosk)
+* [Multi Tenant Operator](https://docs.stakater.com/mto/)
 
 #### Multi-customer tenancy
 

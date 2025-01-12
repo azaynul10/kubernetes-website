@@ -2,6 +2,11 @@
 reviewers:
 - bprashanth
 title: Ingress
+api_metadata:
+- apiVersion: "networking.k8s.io/v1"
+  kind: "Ingress"
+- apiVersion: "networking.k8s.io/v1"
+  kind: "IngressClass"
 content_type: concept
 description: >-
   Make your HTTP (or HTTPS) network service available using a protocol-aware configuration
@@ -82,7 +87,10 @@ A minimal Ingress resource example:
 An Ingress needs `apiVersion`, `kind`, `metadata` and `spec` fields.
 The name of an Ingress object must be a valid
 [DNS subdomain name](/docs/concepts/overview/working-with-objects/names#dns-subdomain-names).
-For general information about working with config files, see [deploying applications](/docs/tasks/run-application/run-stateless-application-deployment/), [configuring containers](/docs/tasks/configure-pod-container/configure-pod-configmap/), [managing resources](/docs/concepts/cluster-administration/manage-deployment/).
+For general information about working with config files, see
+[deploying applications](/docs/tasks/run-application/run-stateless-application-deployment/),
+[configuring containers](/docs/tasks/configure-pod-container/configure-pod-configmap/),
+[managing resources](/docs/concepts/workloads/management/).
 Ingress frequently uses annotations to configure some options depending on the Ingress controller, an example of which
 is the [rewrite-target annotation](https://github.com/kubernetes/ingress-nginx/blob/main/docs/examples/rewrite/README.md).
 Different [Ingress controllers](/docs/concepts/services-networking/ingress-controllers) support different annotations.
@@ -636,7 +644,7 @@ Please check the documentation of the relevant [Ingress controller](/docs/concep
 You can expose a Service in multiple ways that don't directly involve the Ingress resource:
 
 * Use [Service.Type=LoadBalancer](/docs/concepts/services-networking/service/#loadbalancer)
-* Use [Service.Type=NodePort](/docs/concepts/services-networking/service/#nodeport)
+* Use [Service.Type=NodePort](/docs/concepts/services-networking/service/#type-nodeport)
 
 ## {{% heading "whatsnext" %}}
 

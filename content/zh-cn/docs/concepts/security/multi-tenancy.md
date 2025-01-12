@@ -603,12 +603,12 @@ access to the host system and all the processes/files running on that host.
 在容器逃逸场景中，攻击者会利用漏洞来访问主机系统以及在该主机上运行的所有进程/文件。
 
 <!--
-Virtual machines and userspace kernels are 2 popular approaches to sandboxing. The following
+Virtual machines and userspace kernels are two popular approaches to sandboxing. The following
 sandboxing implementations are available:
 
 * [gVisor](https://gvisor.dev/) intercepts syscalls from containers and runs them through a
   userspace kernel, written in Go, with limited access to the underlying host.
-* [Kata Containers](https://katacontainers.io/) is an OCI compliant runtime that allows you to run
+* [Kata Containers](https://katacontainers.io/) provide a secure container runtime that allows you to run
   containers in a VM. The hardware virtualization available in Kata offers an added layer of
   security for containers running untrusted code.
 -->
@@ -617,8 +617,8 @@ sandboxing implementations are available:
 
 * [gVisor](https://gvisor.dev/) 拦截来自容器的系统调用，并通过用户空间内核运行它们，
   用户空间内核采用 Go 编写，对底层主机的访问是受限的
-* [Kata Containers](https://katacontainers.io/) 是符合 OCI 的运行时，允许你在 VM 中运行容器。
-  Kata 中提供的硬件虚拟化为运行不受信任代码的容器提供了额外的安全层。
+* [Kata Containers](https://katacontainers.io/) 提供了一个安全的容器运行时，
+  允许你在 VM 中运行容器。Kata 中提供的硬件虚拟化为运行不受信任代码的容器提供了额外的安全层。
 
 <!--
 ### Node Isolation
@@ -973,12 +973,14 @@ listed below.
 -->
 #### 多团队租户 {#multi-team-tenancy}
 
+{{% thirdparty-content %}}
+
 <!--
 * [Capsule](https://github.com/clastix/capsule)
-* [Kiosk](https://github.com/loft-sh/kiosk)
+* [Multi Tenant Operator](https://docs.stakater.com/mto/)
 -->
 * [Capsule](https://github.com/clastix/capsule)
-* [Kiosk](https://github.com/loft-sh/kiosk)
+* [Multi Tenant Operator](https://docs.stakater.com/mto/)
 
 <!--
 #### Multi-customer tenancy

@@ -74,7 +74,7 @@ Plugins that implement PreEnqueue, PreFilter, Filter, Reserve or Permit should i
 
 ### QueueingHint
 
-{{< feature-state for_k8s_version="v1.28" state="beta" >}}
+{{< feature-state for_k8s_version="v1.32" state="beta" >}}
 
 QueueingHint is a callback function for deciding whether a Pod can be requeued to the active queue or backoff queue.
 It's executed every time a certain kind of event or change happens in the cluster.
@@ -83,12 +83,9 @@ the Pod is put into the active queue or the backoff queue
 so that the scheduler will retry the scheduling of the Pod.
 
 {{< note >}}
-QueueingHint evaluation during scheduling is a beta-level feature. 
-The v1.28 release series initially enabled the associated feature gate; however, after the
-discovery of an excessive memory footprint, the Kubernetes project set that feature gate
-to be disabled by default. In Kubernetes {{< skew currentVersion >}}, this feature gate is
-disabled and you need to enable it manually.
-You can enable it via the
+QueueingHint evaluation during scheduling is a beta-level feature.
+In Kubernetes {{< skew currentVersion >}}, this feature gate is enabled by default,
+and you can disable it via the
 `SchedulerQueueingHints` [feature gate](/docs/reference/command-line-tools-reference/feature-gates/).
 {{< /note >}}
 
@@ -113,7 +110,7 @@ called for that node. Nodes may be evaluated concurrently.
 
 ### PostFilter {#post-filter}
 
-These plugins are called after Filter phase, but only when no feasible nodes
+These plugins are called after the Filter phase, but only when no feasible nodes
 were found for the pod. Plugins are called in their configured order. If
 any postFilter plugin marks the node as `Schedulable`, the remaining plugins
 will not be called. A typical PostFilter implementation is preemption, which

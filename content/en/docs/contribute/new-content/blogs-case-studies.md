@@ -157,6 +157,10 @@ To submit a blog post follow these directions:
     title: "Your Title Here"
     date: YYYY-MM-DD
     slug: text-for-URL-link-here-no-spaces
+    author: >
+      Author-1 (Affiliation),
+      Author-2 (Affiliation),
+      Author-3 (Affiliation)
     ---
     ```
 
@@ -188,6 +192,17 @@ To submit a blog post follow these directions:
     - Examples of content that should not be marked evergreen:
       - **Tutorials** that only apply to specific releases or versions and not all future versions
       - References to pre-GA APIs or features
+
+### Mirroring from the Kubernetes Contributor Blog
+
+To mirror a blog post from the [Kubernetes contributor blog](https://www.kubernetes.dev/blog/), follow these guidelines:
+
+- Keep the blog content the same. If there are changes, they should be made to the original article first, and then to the mirrored article.
+- The mirrored blog should have a `canonicalUrl`, that is, essentially the url of the original blog after it has been published.
+- Same as [Kubernetes contributor blogs](https://kubernetes.dev/blog), Kubernetes blog posts also mention authors in the YAML header as per the new guidelines. This should be ensured.
+- Publication dates stay the same as the original blog.
+
+All of the other guidelines and expectations detailed above apply as well.
 
 ## Submit a case study
 

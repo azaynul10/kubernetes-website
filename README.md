@@ -20,6 +20,9 @@ To use this repository, you need the following installed locally:
 - [Hugo (Extended version)](https://gohugo.io/)
 - A container runtime, like [Docker](https://www.docker.com/).
 
+> [!NOTE]
+Make sure to install the Hugo extended version specified by the `HUGO_VERSION` environment variable in the [`netlify.toml`](netlify.toml#L11) file.
+
 Before you start, install the dependencies. Clone the repository and navigate to the directory:
 
 ```bash
@@ -27,15 +30,17 @@ git clone https://github.com/kubernetes/website.git
 cd website
 ```
 
-The Kubernetes website uses the [Docsy Hugo theme](https://github.com/google/docsy#readme). Even if you plan to run the website in a container, we strongly recommend pulling in the submodule and other development dependencies by running the following:
+The Kubernetes website uses git submodules. Even if you plan to run the website in a container, we strongly recommend pulling in the submodule and other development dependencies by running the following:
 
 ### Windows
+
 ```powershell
 # fetch submodule dependencies
 git submodule update --init --recursive --depth 1
 ```
 
 ### Linux / other Unix
+
 ```bash
 # fetch submodule dependencies
 make module-init
@@ -56,16 +61,17 @@ Open up your browser to <http://localhost:1313> to view the website. As you make
 
 ## Running the website locally using Hugo
 
-Make sure to install the Hugo extended version specified by the `HUGO_VERSION` environment variable in the [`netlify.toml`](netlify.toml#L11) file.
-
 To install dependencies, deploy and test the site locally, run:
 
 - For macOS and Linux
+
   ```bash
   npm ci
   make serve
   ```
+
 - For Windows (PowerShell)
+
   ```powershell
   npm ci
   hugo.exe server --buildFuture --environment development
@@ -99,10 +105,9 @@ To update the reference pages for a new Kubernetes release follow these steps:
    make api-reference
    ```
 
-   You can test the results locally by making and serving the site from a container image:
+   You can test the results locally by building and serving the site from a container:
 
    ```bash
-   make container-image
    make container-serve
    ```
 
@@ -184,21 +189,22 @@ For more information about contributing to the Kubernetes documentation, see:
 
 If you need help at any point when contributing, the [New Contributor Ambassadors](https://kubernetes.io/docs/contribute/advanced/#serve-as-a-new-contributor-ambassador) are a good point of contact. These are SIG Docs approvers whose responsibilities include mentoring new contributors and helping them through their first few pull requests. The best place to contact the New Contributors Ambassadors would be on the [Kubernetes Slack](https://slack.k8s.io/). Current New Contributors Ambassadors for SIG Docs:
 
-| Name                       | Slack                      | GitHub                     |                   
+| Name                       | Slack                      | GitHub                     |
 | -------------------------- | -------------------------- | -------------------------- |
-| Arsh Sharma                | @arsh                      | @RinkiyaKeDad              |
+| Sreeram Venkitesh          | @sreeram.venkitesh         | @sreeram-venkitesh         |
 
 ## Localization READMEs
 
 | Language                   | Language                   |
 | -------------------------- | -------------------------- |
-| [Chinese](README-zh.md)    | [Korean](README-ko.md)     |
-| [French](README-fr.md)     | [Polish](README-pl.md)     |
-| [German](README-de.md)     | [Portuguese](README-pt.md) |
-| [Hindi](README-hi.md)      | [Russian](README-ru.md)    |
-| [Indonesian](README-id.md) | [Spanish](README-es.md)    |
-| [Italian](README-it.md)    | [Ukrainian](README-uk.md)  |
-| [Japanese](README-ja.md)   | [Vietnamese](README-vi.md) |
+| [Bengali](./content/bn/README.md)    | [Korean](./content/ko/README.md)    |
+| [Chinese](./content/zh-cn/README.md)    | [Polish](./content/pl/README.md)    |
+| [French](./content/fr/README.md)     | [Portuguese](./content/pt-br/README.md)    |
+| [German](./content/de/README.md)     | [Russian](./content/ru/README.md)    |
+| [Hindi](./content/hi/README.md)      | [Spanish](./content/es/README.md)    |
+| [Indonesian](./content/id/README.md) | [Ukrainian](./content/uk/README.md) |
+| [Italian](./content/it/README.md)    | [Vietnamese](./content/vi/README.md) |
+| [Japanese](./content/ja/README.md)   | |
 
 ## Code of conduct
 
