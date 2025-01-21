@@ -84,7 +84,7 @@ solutions.
 The choice of monitoring platform depends heavily on your needs, budget, and technical resources.
 Kubernetes does not recommend any specific metrics pipeline; [many options](https://landscape.cncf.io/?group=projects-and-products&view-mode=card#observability-and-analysis--monitoring) are available.
 Your monitoring system should be capable of handling the [OpenMetrics](https://openmetrics.io/) metrics
-transmission standard, and needs to chosen to best fit in to your overall design and deployment of
+transmission standard and needs to be chosen to best fit into your overall design and deployment of
 your infrastructure platform.
 
 
@@ -94,7 +94,6 @@ your infrastructure platform.
 Learn about additional debugging tools, including:
 
 * [Logging](/docs/concepts/cluster-administration/logging/)
-* [Monitoring](/docs/tasks/debug/debug-cluster/resource-usage-monitoring/)
 * [Getting into containers via `exec`](/docs/tasks/debug/debug-application/get-shell-running-container/)
 * [Connecting to containers via proxies](/docs/tasks/extend-kubernetes/http-proxy-access-api/)
 * [Connecting to containers via port forwarding](/docs/tasks/access-application-cluster/port-forward-access-application-cluster/)

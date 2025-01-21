@@ -32,6 +32,14 @@ auto_generated: true
 <tbody>
     
   
+<tr><td><code>text</code> <B>[Required]</B><br/>
+<a href="#TextOptions"><code>TextOptions</code></a>
+</td>
+<td>
+   <p>[Alpha] Text contains options for logging format &quot;text&quot;.
+Only available when the LoggingAlphaOptions feature gate is enabled.</p>
+</td>
+</tr>
 <tr><td><code>json</code> <B>[Required]</B><br/>
 <a href="#JSONOptions"><code>JSONOptions</code></a>
 </td>
@@ -59,24 +67,11 @@ Only available when the LoggingAlphaOptions feature gate is enabled.</p>
 <tbody>
     
   
-<tr><td><code>splitStream</code> <B>[Required]</B><br/>
-<code>bool</code>
+<tr><td><code>OutputRoutingOptions</code> <B>[Required]</B><br/>
+<a href="#OutputRoutingOptions"><code>OutputRoutingOptions</code></a>
 </td>
-<td>
-   <p>[Alpha] SplitStream redirects error messages to stderr while
-info messages go to stdout, with buffering. The default is to write
-both to stdout, without buffering. Only available when
-the LoggingAlphaOptions feature gate is enabled.</p>
-</td>
-</tr>
-<tr><td><code>infoBufferSize</code> <B>[Required]</B><br/>
-<a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#QuantityValue"><code>k8s.io/apimachinery/pkg/api/resource.QuantityValue</code></a>
-</td>
-<td>
-   <p>[Alpha] InfoBufferSize sets the size of the info stream when
-using split streams. The default is zero, which disables buffering.
-Only available when the LoggingAlphaOptions feature gate is enabled.</p>
-</td>
+<td>(Members of <code>OutputRoutingOptions</code> are embedded into this type.)
+   <span class="text-muted">No description provided.</span></td>
 </tr>
 </tbody>
 </table>
@@ -182,6 +177,71 @@ certain global defaults.</p>
 <td>
    <p>InfoStream can be used to override the os.Stdout default.</p>
 </td>
+</tr>
+</tbody>
+</table>
+
+## `OutputRoutingOptions`     {#OutputRoutingOptions}
+    
+
+**Appears in:**
+
+- [JSONOptions](#JSONOptions)
+
+- [TextOptions](#TextOptions)
+
+
+<p>OutputRoutingOptions contains options that are supported by both &quot;text&quot; and &quot;json&quot;.</p>
+
+
+<table class="table">
+<thead><tr><th width="30%">Field</th><th>Description</th></tr></thead>
+<tbody>
+    
+  
+<tr><td><code>splitStream</code> <B>[Required]</B><br/>
+<code>bool</code>
+</td>
+<td>
+   <p>[Alpha] SplitStream redirects error messages to stderr while
+info messages go to stdout, with buffering. The default is to write
+both to stdout, without buffering. Only available when
+the LoggingAlphaOptions feature gate is enabled.</p>
+</td>
+</tr>
+<tr><td><code>infoBufferSize</code> <B>[Required]</B><br/>
+<a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#QuantityValue"><code>k8s.io/apimachinery/pkg/api/resource.QuantityValue</code></a>
+</td>
+<td>
+   <p>[Alpha] InfoBufferSize sets the size of the info stream when
+using split streams. The default is zero, which disables buffering.
+Only available when the LoggingAlphaOptions feature gate is enabled.</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+## `TextOptions`     {#TextOptions}
+    
+
+**Appears in:**
+
+- [FormatOptions](#FormatOptions)
+
+
+<p>TextOptions contains options for logging format &quot;text&quot;.</p>
+
+
+<table class="table">
+<thead><tr><th width="30%">Field</th><th>Description</th></tr></thead>
+<tbody>
+    
+  
+<tr><td><code>OutputRoutingOptions</code> <B>[Required]</B><br/>
+<a href="#OutputRoutingOptions"><code>OutputRoutingOptions</code></a>
+</td>
+<td>(Members of <code>OutputRoutingOptions</code> are embedded into this type.)
+   <span class="text-muted">No description provided.</span></td>
 </tr>
 </tbody>
 </table>
@@ -352,6 +412,16 @@ run, or the path to a single static pod file.
 Default: &quot;&quot;</p>
 </td>
 </tr>
+<tr><td><code>podLogsDir</code><br/>
+<code>string</code>
+</td>
+<td>
+   <p>podLogsDir is a custom root directory path kubelet will use to place pod's log files.
+Default: &quot;/var/log/pods/&quot;
+Note: it is not recommended to use the temp folder as a log directory as it may cause
+unexpected behavior in many places.</p>
+</td>
+</tr>
 <tr><td><code>syncFrequency</code><br/>
 <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#Duration"><code>meta/v1.Duration</code></a>
 </td>
@@ -449,7 +519,7 @@ Default: &quot;&quot;</p>
 <td>
    <p>tlsCipherSuites is the list of allowed cipher suites for the server.
 Note that TLS 1.3 ciphersuites are not configurable.
-Values are from tls package constants (https://pkg.go.dev/crypto/tls#pkg-constants).
+Values are from tls package constants (https://golang.org/pkg/crypto/tls/#pkg-constants).
 Default: nil</p>
 </td>
 </tr>
@@ -458,7 +528,7 @@ Default: nil</p>
 </td>
 <td>
    <p>tlsMinVersion is the minimum TLS version supported.
-Values are from tls package constants (https://pkg.go.dev/crypto/tls#pkg-constants).
+Values are from tls package constants (https://golang.org/pkg/crypto/tls/#pkg-constants).
 Default: &quot;&quot;</p>
 </td>
 </tr>
@@ -770,6 +840,19 @@ Requires the CPUManager feature gate to be enabled.
 Default: &quot;None&quot;</p>
 </td>
 </tr>
+<tr><td><code>singleProcessOOMKill</code><br/>
+<code>bool</code>
+</td>
+<td>
+   <p>singleProcessOOMKill, if true, will prevent the <code>memory.oom.group</code> flag from being set for container
+cgroups in cgroups v2. This causes processes in the container to be OOM killed individually instead of as
+a group. It means that if true, the behavior aligns with the behavior of cgroups v1.
+The default value is determined automatically when you don't specify.
+On non-linux such as windows, only null / absent is allowed.
+On cgroup v1 linux, only null / absent and true are allowed.
+On cgroup v2 linux, null / absent, true and false are allowed. The default value is false.</p>
+</td>
+</tr>
 <tr><td><code>cpuManagerPolicyOptions</code><br/>
 <code>map[string]string</code>
 </td>
@@ -1055,9 +1138,6 @@ Default: &quot;5m&quot;</p>
    <p>evictionMaxPodGracePeriod is the maximum allowed grace period (in seconds) to use
 when terminating pods in response to a soft eviction threshold being met. This value
 effectively caps the Pod's terminationGracePeriodSeconds value during soft evictions.
-Note: Due to issue #64530, the behavior has a bug where this value currently just
-overrides the grace period during soft eviction, which can increase the grace
-period from what is set on the Pod. This bug will be fixed in a future release.
 Default: 0</p>
 </td>
 </tr>
@@ -1176,6 +1256,27 @@ be present for a container.
 Default: 5</p>
 </td>
 </tr>
+<tr><td><code>containerLogMaxWorkers</code><br/>
+<code>int32</code>
+</td>
+<td>
+   <p>ContainerLogMaxWorkers specifies the maximum number of concurrent workers to spawn
+for performing the log rotate operations. Set this count to 1 for disabling the
+concurrent log rotation workflows
+Default: 1</p>
+</td>
+</tr>
+<tr><td><code>containerLogMonitorInterval</code><br/>
+<a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#Duration"><code>meta/v1.Duration</code></a>
+</td>
+<td>
+   <p>ContainerLogMonitorInterval specifies the duration at which the container logs are monitored
+for performing the log rotate operation. This defaults to 10 * time.Seconds. But can be
+customized to a smaller value based on the log generation rate and the size required to be
+rotated against
+Default: 10s</p>
+</td>
+</tr>
 <tr><td><code>configMapAndSecretChangeDetectionStrategy</code><br/>
 <a href="#kubelet-config-k8s-io-v1beta1-ResourceChangeDetectionStrategy"><code>ResourceChangeDetectionStrategy</code></a>
 </td>
@@ -1197,7 +1298,7 @@ managers are running. Valid values include:</p>
    <p>systemReserved is a set of ResourceName=ResourceQuantity (e.g. cpu=200m,memory=150G)
 pairs that describe resources reserved for non-kubernetes components.
 Currently only cpu and memory are supported.
-See http://kubernetes.io/docs/user-guide/compute-resources for more detail.
+See https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources for more detail.
 Default: nil</p>
 </td>
 </tr>
@@ -1208,7 +1309,7 @@ Default: nil</p>
    <p>kubeReserved is a set of ResourceName=ResourceQuantity (e.g. cpu=200m,memory=150G) pairs
 that describe resources reserved for kubernetes system components.
 Currently cpu, memory and local storage for root file system are supported.
-See https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+See https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources
 for more details.
 Default: nil</p>
 </td>
@@ -1395,6 +1496,14 @@ This configuration must be empty if either ShutdownGracePeriod or ShutdownGraceP
 Default: nil</p>
 </td>
 </tr>
+<tr><td><code>crashLoopBackOff</code><br/>
+<a href="#kubelet-config-k8s-io-v1beta1-CrashLoopBackOffConfig"><code>CrashLoopBackOffConfig</code></a>
+</td>
+<td>
+   <p>CrashLoopBackOff contains config to modify node-level parameters for
+container restart behavior</p>
+</td>
+</tr>
 <tr><td><code>reservedMemory</code><br/>
 <a href="#kubelet-config-k8s-io-v1beta1-MemoryReservation"><code>[]MemoryReservation</code></a>
 </td>
@@ -1458,7 +1567,7 @@ Default: 0.9</p>
 </td>
 </tr>
 <tr><td><code>registerWithTaints</code><br/>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#taint-v1-core"><code>[]core/v1.Taint</code></a>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#taint-v1-core"><code>[]core/v1.Taint</code></a>
 </td>
 <td>
    <p>registerWithTaints are an array of taints to add to a node object when
@@ -1517,6 +1626,17 @@ Examples:'unix:///path/to/runtime.sock', 'npipe:////./pipe/runtime'.
 If not specified, the value in containerRuntimeEndpoint is used.</p>
 </td>
 </tr>
+<tr><td><code>failCgroupV1</code><br/>
+<code>bool</code>
+</td>
+<td>
+   <p>FailCgroupV1 prevents the kubelet from starting on hosts
+that use cgroup v1. By default, this is set to 'false', meaning
+the kubelet is allowed to start on cgroup v1 hosts unless this
+option is explicitly enabled.
+Default: false</p>
+</td>
+</tr>
 </tbody>
 </table>
 
@@ -1538,10 +1658,36 @@ It exists in the kubeletconfig API group because it is classified as a versioned
     
   
 <tr><td><code>source</code><br/>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#nodeconfigsource-v1-core"><code>core/v1.NodeConfigSource</code></a>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#nodeconfigsource-v1-core"><code>core/v1.NodeConfigSource</code></a>
 </td>
 <td>
    <p>source is the source that we are serializing.</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+## `CrashLoopBackOffConfig`     {#kubelet-config-k8s-io-v1beta1-CrashLoopBackOffConfig}
+    
+
+**Appears in:**
+
+- [KubeletConfiguration](#kubelet-config-k8s-io-v1beta1-KubeletConfiguration)
+
+
+
+<table class="table">
+<thead><tr><th width="30%">Field</th><th>Description</th></tr></thead>
+<tbody>
+    
+  
+<tr><td><code>maxContainerRestartPeriod</code><br/>
+<a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#Duration"><code>meta/v1.Duration</code></a>
+</td>
+<td>
+   <p>maxContainerRestartPeriod is the maximum duration the backoff delay can accrue
+to for container restarts, minimum 1 second, maximum 300 seconds. If not set,
+defaults to the internal crashloopbackoff maximum (300s).</p>
 </td>
 </tr>
 </tbody>
@@ -1899,7 +2045,7 @@ and groups corresponding to the Organization in the client certificate.</p>
    <span class="text-muted">No description provided.</span></td>
 </tr>
 <tr><td><code>limits</code> <B>[Required]</B><br/>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.29/#resourcelist-v1-core"><code>core/v1.ResourceList</code></a>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcelist-v1-core"><code>core/v1.ResourceList</code></a>
 </td>
 <td>
    <span class="text-muted">No description provided.</span></td>
@@ -1926,8 +2072,8 @@ and groups corresponding to the Organization in the client certificate.</p>
 </td>
 <td>
    <p>swapBehavior configures swap memory available to container workloads. May be one of
-&quot;&quot;, &quot;LimitedSwap&quot;: workload combined memory and swap usage cannot exceed pod memory limit
-&quot;UnlimitedSwap&quot;: workloads can use unlimited swap, up to the allocatable limit.</p>
+&quot;&quot;, &quot;NoSwap&quot;: workloads can not use swap, default option.
+&quot;LimitedSwap&quot;: workload swap usage is limited. The swap limit is proportionate to the container's memory request.</p>
 </td>
 </tr>
 </tbody>

@@ -60,7 +60,7 @@ write your own scheduling component and use that instead.
 [kube-scheduler](/zh-cn/docs/reference/command-line-tools-reference/kube-scheduler/)
 是 Kubernetes 集群的默认调度器，并且是集群
 {{< glossary_tooltip text="控制面" term_id="control-plane" >}} 的一部分。
-如果你真得希望或者有这方面的需求，kube-scheduler
+如果你真的希望或者有这方面的需求，kube-scheduler
 在设计上允许你自己编写一个调度组件并替换原有的 kube-scheduler。
 
 <!--
@@ -122,7 +122,7 @@ kube-scheduler 给一个 Pod 做调度选择时包含两个步骤：
 <!--
 The _filtering_ step finds the set of Nodes where it's feasible to
 schedule the Pod. For example, the PodFitsResources filter checks whether a
-candidate Node has enough available resource to meet a Pod's specific
+candidate Node has enough available resources to meet a Pod's specific
 resource requests. After this step, the node list contains any suitable
 Nodes; often, there will be more than one. If the list is empty, that
 Pod isn't (yet) schedulable.

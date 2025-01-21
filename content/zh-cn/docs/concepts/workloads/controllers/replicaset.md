@@ -1,5 +1,8 @@
 ---
 title: ReplicaSet
+api_metadata:
+- apiVersion: "apps/v1"
+  kind: "ReplicaSet"
 feature:
   title: 自我修复
   anchor: ReplicationController 如何工作
@@ -20,6 +23,9 @@ reviewers:
 - bprashanth
 - madhusudancs
 title: ReplicaSet
+api_metadata:
+- apiVersion: "apps/v1"
+  kind: "ReplicaSet"
 feature:
   title: Self-healing
   anchor: How a ReplicaSet works
@@ -165,15 +171,14 @@ Namespace:    default
 Selector:     tier=frontend
 Labels:       app=guestbook
               tier=frontend
-Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"apps/v1","kind":"ReplicaSet","metadata":{"annotations":{},"labels":{"app":"guestbook","tier":"frontend"},"name":"frontend",...
+Annotations:  <none>
 Replicas:     3 current / 3 desired
 Pods Status:  3 Running / 0 Waiting / 0 Succeeded / 0 Failed
 Pod Template:
   Labels:  tier=frontend
   Containers:
    php-redis:
-    Image:        gcr.io/google_samples/gb-frontend:v3
+    Image:        us-docker.pkg.dev/google-samples/containers/gke/gb-frontend:v5
     Port:         <none>
     Host Port:    <none>
     Environment:  <none>
@@ -182,9 +187,9 @@ Pod Template:
 Events:
   Type    Reason            Age   From                   Message
   ----    ------            ----  ----                   -------
-  Normal  SuccessfulCreate  117s  replicaset-controller  Created pod: frontend-wtsmm
-  Normal  SuccessfulCreate  116s  replicaset-controller  Created pod: frontend-b2zdv
-  Normal  SuccessfulCreate  116s  replicaset-controller  Created pod: frontend-vcmts
+  Normal  SuccessfulCreate  13s   replicaset-controller  Created pod: frontend-gbgfx
+  Normal  SuccessfulCreate  13s   replicaset-controller  Created pod: frontend-rwz57
+  Normal  SuccessfulCreate  13s   replicaset-controller  Created pod: frontend-wkl7w
 ```
 
 <!--
@@ -203,9 +208,9 @@ You should see Pod information similar to:
 
 ```
 NAME             READY   STATUS    RESTARTS   AGE
-frontend-b2zdv   1/1     Running   0          6m36s
-frontend-vcmts   1/1     Running   0          6m36s
-frontend-wtsmm   1/1     Running   0          6m36s
+frontend-gbgfx   1/1     Running   0          10m
+frontend-rwz57   1/1     Running   0          10m
+frontend-wkl7w   1/1     Running   0          10m
 ```
 
 <!--
@@ -213,10 +218,10 @@ You can also verify that the owner reference of these pods is set to the fronten
 To do this, get the yaml of one of the Pods running:
 -->
 你也可以查看 Pod 的属主引用被设置为前端的 ReplicaSet。
-要实现这点，可取回运行中的某个 Pod 的 YAML：
+要实现这点，可获取运行中的某个 Pod 的 YAML：
 
 ```shell
-kubectl get pods frontend-b2zdv -o yaml
+kubectl get pods frontend-gbgfx -o yaml
 ```
 
 <!--
@@ -229,11 +234,11 @@ The output will look similar to this, with the frontend ReplicaSet's info set in
 apiVersion: v1
 kind: Pod
 metadata:
-  creationTimestamp: "2020-02-12T07:06:16Z"
+  creationTimestamp: "2024-02-28T22:30:44Z"
   generateName: frontend-
   labels:
     tier: frontend
-  name: frontend-b2zdv
+  name: frontend-gbgfx
   namespace: default
   ownerReferences:
   - apiVersion: apps/v1
@@ -241,7 +246,7 @@ metadata:
     controller: true
     kind: ReplicaSet
     name: frontend
-    uid: f391f6db-bb9b-4c09-ae74-6a1f77f3d5cf
+    uid: e129deca-f864-481b-bb16-b27abfd92292
 ...
 ```
 
@@ -291,7 +296,7 @@ Fetching the Pods:
 新的 Pod 会被该 ReplicaSet 获取，并立即被 ReplicaSet 终止，
 因为它们的存在会使得 ReplicaSet 中 Pod 个数超出其期望值。
 
-取回 Pod：
+获取 Pod：
 
 
 ```shell
@@ -336,7 +341,7 @@ number of its new Pods and the original matches its desired count. As fetching t
 -->
 你会看到 ReplicaSet 已经获得了该 Pod，并仅根据其规约创建新的 Pod，
 直到新的 Pod 和原来的 Pod 的总数达到其预期个数。
-这时取回 Pod 列表：
+这时获取 Pod 列表：
 
 ```shell
 kubectl get pods
@@ -386,8 +391,7 @@ A ReplicaSet also needs a [`.spec` section](https://git.k8s.io/community/contrib
 [DNS 标签](/zh-cn/docs/concepts/overview/working-with-objects/names#dns-label-names)规则。
 
 ReplicaSet 也需要
-[`.spec`](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status)
-部分。
+[`.spec` 部分](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status)。
 
 <!--
 ### Pod Template
@@ -572,15 +576,12 @@ prioritize scaling down pods based on the following general algorithm:
    the pod with the lower value will come first.
 1. Pods on nodes with more replicas come before pods on nodes with fewer replicas.
 1. If the pods' creation times differ, the pod that was created more recently
-   comes before the older pod (the creation times are bucketed on an integer log scale
-   when the `LogarithmicScaleDown` [feature gate](/docs/reference/command-line-tools-reference/feature-gates/) is enabled)
+   comes before the older pod (the creation times are bucketed on an integer log scale).
 -->
 1. 首先选择剔除悬决（Pending，且不可调度）的各个 Pod
 2. 如果设置了 `controller.kubernetes.io/pod-deletion-cost` 注解，则注解值较小的优先被裁减掉
 3. 所处节点上副本个数较多的 Pod 优先于所处节点上副本较少者
-4. 如果 Pod 的创建时间不同，最近创建的 Pod 优先于早前创建的 Pod 被裁减。
-   （当 `LogarithmicScaleDown` 这一[特性门控](/zh-cn/docs/reference/command-line-tools-reference/feature-gates/)
-   被启用时，创建时间是按整数幂级来分组的）。
+4. 如果 Pod 的创建时间不同，最近创建的 Pod 优先于早前创建的 Pod 被裁减（创建时间是按整数幂级来分组的）。
 
 <!--
 If all of the above match, then selection is random.

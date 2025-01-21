@@ -101,9 +101,23 @@ tolerations:
 ```
 
 <!--
-Here's an example of a pod that uses tolerations:
+The default Kubernetes scheduler takes taints and tolerations into account when
+selecting a node to run a particular Pod. However, if you manually specify the
+`.spec.nodeName` for a Pod, that action bypasses the scheduler; the Pod is then
+bound onto the node where you assigned it, even if there are `NoSchedule`
+taints on that node that you selected.
+If this happens and the node also has a `NoExecute` taint set, the kubelet will
+eject the Pod unless there is an appropriate tolerance set.
 -->
-这里是一个使用了容忍度的 Pod：
+默认的 Kubernetes 调度器在选择一个节点来运行特定的 Pod 时会考虑污点和容忍度。
+然而，如果你手动为一个 Pod 指定了 `.spec.nodeName`，那么选节点操作会绕过调度器；
+这个 Pod 将会绑定到你指定的节点上，即使你选择的节点上有 `NoSchedule` 的污点。
+如果这种情况发生，且节点上还设置了 `NoExecute` 的污点，kubelet 会将 Pod 驱逐出去，除非有适当的容忍度设置。
+
+<!--
+Here's an example of a pod that has some tolerations defined:
+-->
+下面是一个定义了一些容忍度的 Pod 的例子：
 
 {{% code_sample file="pods/pod-with-toleration.yaml" %}}
 
@@ -127,12 +141,14 @@ A toleration "matches" a taint if the keys are the same and the effects are the 
 <!--
 There are two special cases:
 
-An empty `key` with operator `Exists` matches all keys, values and effects which means this
-will tolerate everything.
+If the `key` is empty, then the `operator` must be `Exists`, which matches all keys and values. Note that the `effect` still needs to be matched at the same time.
 
 An empty `effect` matches all effects with key `key1`.
 -->
 存在两种特殊情况：
+
+如果 `key` 为空，那么 `operator` 必须是 `Exists`，匹配所有 key 和 value。
+注意，同时 `effect` 仍然需要匹配。
 
 如果一个容忍度的 `key` 为空且 `operator` 为 `Exists`，
 表示这个容忍度与任意的 key、value 和 effect 都匹配，即这个容忍度能容忍任何污点。
@@ -141,7 +157,7 @@ An empty `effect` matches all effects with key `key1`.
 {{< /note >}}
 
 <!--
-The above example used `effect` of `NoSchedule`. Alternatively, you can use `effect` of `PreferNoSchedule`.
+The above example used the `effect` of `NoSchedule`. Alternatively, you can use the `effect` of `PreferNoSchedule`.
 -->
 上述例子中 `effect` 使用的值为 `NoSchedule`，你也可以使用另外一个值 `PreferNoSchedule`。
 
@@ -389,7 +405,7 @@ are true. The following taints are built in:
  * `node.kubernetes.io/network-unavailable`: Node's network is unavailable.
  * `node.kubernetes.io/unschedulable`: Node is unschedulable.
  * `node.cloudprovider.kubernetes.io/uninitialized`: When the kubelet is started
-    with "external" cloud provider, this taint is set on a node to mark it
+    with an "external" cloud provider, this taint is set on a node to mark it
     as unusable. After a controller from the cloud-controller-manager initializes
     this node, the kubelet removes this taint.
 -->

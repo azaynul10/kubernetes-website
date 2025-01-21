@@ -118,7 +118,7 @@ metadata:
   # 名字必需与下面的 spec 字段匹配，并且格式为 '<名称的复数形式>.<组名>'
   name: crontabs.stable.example.com
 spec:
-  # 组名称，用于 REST API: /apis/<组>/<版本>
+  # 组名称，用于 REST API：/apis/<组>/<版本>
   group: stable.example.com
   # 列举此 CustomResourceDefinition 所支持的版本
   versions:
@@ -182,12 +182,11 @@ You can watch the `Established` condition of your CustomResourceDefinition
 to be true or watch the discovery information of the API server for your
 resource to show up.
 -->
-此端点 URL 自此可以用来创建和管理定制对象。对象的 `kind` 将是来自你上面创建时
-所用的 spec 中指定的 `CronTab`。
+此端点 URL 自此可以用来创建和管理定制对象。对象的 `kind`
+将是来自你上面创建时所用的规约中指定的 `CronTab`。
 
 创建端点的操作可能需要几秒钟。你可以监测你的 CustomResourceDefinition 的
-`Established` 状况变为 true，或者监测 API 服务器的发现信息等待你的资源出现在
-那里。
+`Established` 状况变为 true，或者监测 API 服务器的发现信息等待你的资源出现在那里。
 
 <!--
 ## Create custom objects
@@ -254,8 +253,8 @@ the singular or plural forms defined in the CRD, as well as any short names.
 
 You can also view the raw YAML data:
 -->
-使用 kubectl 时，资源名称是大小写不敏感的，而且你既可以使用 CRD 中所定义的单数
-形式或复数形式，也可以使用其短名称：
+使用 kubectl 时，资源名称是大小写不敏感的，而且你既可以使用 CRD
+中所定义的单数形式或复数形式，也可以使用其短名称：
 
 ```shell
 kubectl get ct -o yaml
@@ -335,12 +334,12 @@ CustomResourceDefinition, the structural schema was optional.
 
 CustomResource 对象在定制字段中保存结构化的数据，这些字段和内置的字段
 `apiVersion`、`kind` 和 `metadata` 等一起存储，不过内置的字段都会被 API
-服务器隐式完成合法性检查。有了 [OpenAPI v3.0 检查](#validation)
-能力之后，你可以设置一个模式（Schema），在创建和更新定制对象时，这一模式会被用来
+服务器隐式完成合法性检查。有了 [OpenAPI v3.0 检查](#validation)能力之后，
+你可以设置一个模式（Schema），在创建和更新定制对象时，这一模式会被用来
 对对象内容进行合法性检查。参阅下文了解这类模式的细节和局限性。
 
-在 `apiextensions.k8s.io/v1` 版本中，CustomResourceDefinition 的这一结构化模式
-定义是必需的。
+在 `apiextensions.k8s.io/v1` 版本中，CustomResourceDefinition
+的这一结构化模式定义是必需的。
 在 CustomResourceDefinition 的 beta 版本中，结构化模式定义是可选的。
 
 <!--
@@ -375,7 +374,7 @@ A structural schema is an [OpenAPI v3.0 validation schema](#validation) which:
 <!--
 Non-structural example 1:
 -->
-非结构化的例 1:
+非结构化的例 1：
 
 ```none
 allOf:
@@ -616,8 +615,8 @@ to clients, `kubectl` also checks for unknown fields and rejects those objects w
 would be sent to the API server.
 -->
 本例中通过 `--validate=false` 命令行选项 关闭了客户端的合法性检查以展示 API 服务器的行为，
-因为 [OpenAPI 合法性检查模式也会发布到](#publish-validation-schema-in-openapi)
-客户端，`kubectl` 也会检查未知的字段并在对象被发送到 API
+因为 [OpenAPI 合法性检查模式也会发布到](#publish-validation-schema-in-openapi)客户端，
+`kubectl` 也会检查未知的字段并在对象被发送到 API
 服务器之前就拒绝它们。
 
 <!--
@@ -632,8 +631,8 @@ For example:
 #### 控制剪裁   {#controlling-pruning}
 
 默认情况下，定制资源的所有版本中的所有未规定的字段都会被剪裁掉。
-通过在结构化的 OpenAPI v3 [检查模式定义](#specifying-a-structural-schema)
-中为特定字段的子树添加 `x-kubernetes-preserve-unknown-fields: true` 属性，
+通过在结构化的 OpenAPI v3 [检查模式定义](#specifying-a-structural-schema)中为特定字段的子树添加
+`x-kubernetes-preserve-unknown-fields: true` 属性，
 可以选择不对其执行剪裁操作。
 
 例如：
@@ -755,6 +754,9 @@ anyOf:
 ...
 ```
 
+<!--
+and
+-->
 和
 
 ```none
@@ -912,7 +914,7 @@ Kubernetes 会最终删除该资源，
 ### Validation
 
 Custom resources are validated via
-[OpenAPI v3 schemas](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject),
+[OpenAPI v3.0 schemas](https://github.com/OAI/OpenAPI-Specification/blob/3.0.0/versions/3.0.0.md#schema-object),
 by x-kubernetes-validations when the [Validation Rules feature](#validation-rules) is enabled, and you
 can add additional validation using
 [admission webhooks](/docs/reference/access-authn-authz/admission-controllers/#validatingadmissionwebhook).
@@ -920,7 +922,7 @@ can add additional validation using
 ### 合法性检查    {#validation}
 
 定制资源是通过
-[OpenAPI v3 模式定义](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject)
+[OpenAPI v3.0 模式定义](https://github.com/OAI/OpenAPI-Specification/blob/3.0.0/versions/3.0.0.md#schema-object)，
 来执行合法性检查的，当启用[验证规则特性](#validation-rules)时，通过 `x-kubernetes-validations` 验证，
 你可以通过使用[准入控制 Webhook](/zh-cn/docs/reference/access-authn-authz/admission-controllers/#validatingadmissionwebhook)
 来添加额外的合法性检查逻辑。
@@ -973,7 +975,7 @@ The `x-kubernetes-validations` extension can be used to validate custom resource
 当[验证规则特性](#validation-rules)被启用并且 CustomResourceDefinition
 模式是一个[结构化的模式定义](#specifying-a-structural-schema)时，
 `x-kubernetes-validations`
-扩展可以使用[通用表达式语言 (CEL)](https://github.com/google/cel-spec)表达式来验证定制资源。
+扩展可以使用[通用表达式语言（CEL）](https://github.com/google/cel-spec)表达式来验证定制资源。
 
 <!--
 Refer to the [structural schemas](#specifying-a-structural-schema) section for other
@@ -1130,20 +1132,21 @@ crontab "my-new-cron-object" created
 -->
 ### 验证逐步升级   {#validation-ratcheting}
 
-{{< feature-state state="alpha" for_k8s_version="v1.28" >}}
+{{< feature-state feature_gate_name="CRDValidationRatcheting" >}}
 
 <!--
-You need to enable the `CRDValidationRatcheting`
+If you are using a version of Kubernetes older than v1.30, you need to explicitly
+enable the `CRDValidationRatcheting`
 [feature gate](/docs/reference/command-line-tools-reference/feature-gates/) to
 use this behavior, which then applies to all CustomResourceDefinitions in your
 cluster.
 -->
-你需要启用 `CRDValidationRatcheting`
+如果你使用的 Kubernetes 版本早于 v1.30，则需要显式启用 `CRDValidationRatcheting`
 [特性门控](/zh-cn/docs/reference/command-line-tools-reference/feature-gates/)，
 才能使用这种行为，并将其应用到集群中的所有 CustomResourceDefinition。
 
 <!--
-Provided you enabled the feature gate, Kubernetes implements _validation racheting_
+Provided you enabled the feature gate, Kubernetes implements _validation ratcheting_
 for CustomResourceDefinitions. The API server is willing to accept updates to resources that
 are not valid after the update, provided that each part of the resource that failed to validate
 was not changed by the update operation. In other words, any invalid part of the resource
@@ -1191,20 +1194,24 @@ Kubernetes {{< skew currentVersion >}} 下实现的验证逐步升级不支持�
 
 <!--
 - `x-kubernetes-validations`
-  For Kubernetes 1.28, CRD validation rules](#validation-rules) are ignored by
+  For Kubernetes 1.28, CRD [validation rules](#validation-rules) are ignored by
   ratcheting. Starting with Alpha 2 in Kubernetes 1.29, `x-kubernetes-validations`
-  are ratcheted.
+  are ratcheted only if they do not refer to `oldSelf`.
 
   Transition Rules are never ratcheted: only errors raised by rules that do not 
-  use `oldSelf` will be automatically ratcheted if  their values are unchanged.
+  use `oldSelf` will be automatically ratcheted if their values are unchanged.
+
+  To write custom ratcheting logic for CEL expressions, check out [optionalOldSelf](#field-optional-oldself).
 -->
 - `x-kubernetes-validations`
 
   在 Kubernetes 1.28 中，CRD [验证规则](#validation-rules)被逐步升级所忽略。
-  从 Kubernetes 1.29 的 Alpha 2 开始，`x-kubernetes-validations` 的检查也用逐步升级机制处理。
+  从 Kubernetes 1.29 中 Alpha 2 开始，`x-kubernetes-validations` 仅在不引用 `oldSelf` 时才会进行调整。
 
   转换规则（Transition Rules）永远不会被逐步升级机制处理：只有那些不使用
   `oldSelf` 的规则引发的错误会在其值未更改时自动按逐步升级机制处理。
+
+  要为 CEL 表达式编写自定义棘轮逻辑，请查看 [optionalOldSelf](#field-optional-oldself)。
 
 <!--
 - `x-kubernetes-list-type`
@@ -1246,8 +1253,10 @@ Kubernetes {{< skew currentVersion >}} 下实现的验证逐步升级不支持�
   To remove a previously specified `additionalProperties` validation will not be
   ratcheted.
 - `metadata`
-  Errors arising from changes to fields within an object's `metadata` are not
-  ratcheted.
+  Errors that come from Kubernetes' built-in validation of an object's `metadata` 
+  are not ratcheted (such as object name, or characters in a label value). 
+  If you specify your own additional rules for the metadata of a custom resource, 
+  that additional validation will be ratcheted.
 -->
 - `additionalProperties`
 
@@ -1255,7 +1264,8 @@ Kubernetes {{< skew currentVersion >}} 下实现的验证逐步升级不支持�
 
 - `metadata`
 
-  因更改对象的 `metadata` 中的字段而引起的错误不会被逐步升级机制处理。
+  来自 Kubernetes 对对象 `metadata` 的内置验证的错误不会被逐步调整（例如对象名称或标签值中的字符）。
+  如果你为自定义资源的元数据指定自己的附加规则，则附加验证将逐步加强。
 
 <!--
 ### Validation rules
@@ -1288,7 +1298,7 @@ rules are supported.
 <!--
 For example:
 -->
-例如:
+例如：
 
 ```none
   ...
@@ -1319,7 +1329,7 @@ For example:
 <!--
 will reject a request to create this custom resource:
 -->
-将拒绝创建这个定制资源的请求:
+将拒绝创建这个定制资源的请求：
 
 ```yaml
 apiVersion: "stable.example.com/v1"
@@ -1918,17 +1928,19 @@ Setting `fieldPath` is optional.
 
 #### `optionalOldSelf` 字段   {#field-optional-oldself}
 
-{{< feature-state state="alpha" for_k8s_version="v1.29" >}}
+{{< feature-state feature_gate_name="CRDValidationRatcheting" >}}
 
 <!--
-The feature [CRDValidationRatcheting](#validation-ratcheting) must be enabled in order to 
-make use of this field.
+If your cluster does not have [CRD validation ratcheting](#validation-ratcheting) enabled, 
+the CustomResourceDefinition API doesn't include this field, and trying to set it may result
+in an error.
 
 The `optionalOldSelf` field is a boolean field that alters the behavior of [Transition Rules](#transition-rules) described
 below. Normally, a transition rule will not evaluate if `oldSelf` cannot be determined:
 during object creation or when a new value is introduced in an update.
 -->
-要使用此字段，必须启用特性 [CRDValidationRatcheting](#validation-ratcheting)。
+如果你的集群未启用 [CRDValidationRatcheting](#validation-ratcheting)，则
+CustomResourceDefinition API 不包含此字段，尝试设置它可能会导致错误。
 
 `optionalOldSelf` 字段是一个布尔字段，它会改变下文所述的[转换规则](#transition-rules)的行为。
 通常，在对象创建期间或在更新中引入新值时，如果无法确定 `oldSelf`，则不会处理转换规则。
@@ -2038,12 +2050,10 @@ Unlike other rules, transition rules apply only to operations meeting the follow
 
 <!--
 Errors will be generated on CRD writes if a schema node contains a transition rule that can never be
-applied, e.g. "*path*: update rule *rule* cannot be set on schema because the schema or its parent
-schema is not mergeable".
+applied, e.g. "oldSelf cannot be used on the uncorrelatable portion of the schema within *path*".
 -->
 如果一个模式节点包含一个永远不能应用的转换规则，在 CRD 写入时将会产生错误，例如：
-"*path*: update rule *rule* cannot be set on schema because the schema or its parent
-schema is not mergeable"。
+"oldSelf cannot be used on the uncorrelatable portion of the schema within *path*"。
 
 <!--
 Transition rules are only allowed on _correlatable portions_ of a schema.
@@ -2665,8 +2675,8 @@ If the value inside a CustomResource does not match the type specified for the c
 the value is omitted. Use CustomResource validation to ensure that the value
 types are correct.
 -->
-如果定制资源中的值与列中指定的类型不匹配，该值会被忽略。
-你可以通过定制资源的合法性检查来确保取值类型是正确的。
+如果 CustomResource 中的值与列中指定的类型不匹配，该值会被忽略。
+你可以通过 CustomResource 的合法性检查来确保取值类型是正确的。
 
 <!--
 #### Format
@@ -2690,6 +2700,143 @@ A column's `format` field can be any of the following:
 The column's `format` controls the style used when `kubectl` prints the value.
 -->
 列的 `format` 字段控制 `kubectl` 打印对应取值时采用的风格。
+
+<!--
+### Field selectors
+
+[Field Selectors](/docs/concepts/overview/working-with-objects/field-selectors/)
+let clients select custom resources based on the value of one or more resource
+fields.
+
+All custom resources support the `metadata.name` and `metadata.namespace` field
+selectors.
+-->
+### 字段选择算符  {#field-selectors}
+
+[字段选择算符](/zh-cn/docs/concepts/overview/working-with-objects/field-selectors/)允许客户端根据一个或多个资源字段的值选择自定义资源。
+
+所有自定义资源都支持 `metadata.name` 和 `metadata.namespace` 字段选择器。
+
+<!--
+Fields declared in a {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}}
+may also be used with field selectors when included in the `spec.versions[*].selectableFields` field of the
+{{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}}.
+-->
+当 {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}}
+中声明的字段包含在 {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}}
+的 `spec.versions[*].selectableFields` 字段中时，也可以与字段选择器一起使用。
+
+<!--
+#### Selectable fields for custom resources {#crd-selectable-fields}
+-->
+#### 自定义资源的可选字段    {#crd-selectable-fields}
+
+{{< feature-state feature_gate_name="CustomResourceFieldSelectors" >}}
+
+<!--
+The `spec.versions[*].selectableFields` field of a {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}} may be used to
+declare which other fields in a custom resource may be used in field selectors
+with the feature of `CustomResourceFieldSelectors`
+[feature gate](/docs/reference/command-line-tools-reference/feature-gates/) (This feature gate is enabled by default since Kubernetes v1.31).
+The following example adds the `.spec.color` and `.spec.size` fields as
+selectable fields.
+
+Save the CustomResourceDefinition to `shirt-resource-definition.yaml`:
+-->
+CustomResourceDefinition 的 `spec.versions[*].selectableFields`
+字段可用于声明自定义资源中的哪些其他字段可在字段选择器中使用。
+这一功能依赖于 `CustomResourceFieldSelectors`
+[特性门控](/zh-cn/docs/reference/command-line-tools-reference/feature-gates/)（自 Kubernetes v1.31 起默认启用）。
+以下示例将 `.spec.color` 和 `.spec.size` 字段添加为可选字段。
+
+将 CustomResourceDefinition 保存到 `shirt-resource-definition.yaml`：
+
+{{% code_sample file="customresourcedefinition/shirt-resource-definition.yaml" %}}
+
+<!--
+Create the CustomResourceDefinition:
+-->
+创建 CustomResourceDefinition：
+
+```shell
+kubectl apply -f https://k8s.io/examples/customresourcedefinition/shirt-resource-definition.yaml
+```
+
+<!--
+Define some Shirts by editing `shirt-resources.yaml`; for example:
+-->
+通过编辑 `shirt-resources.yaml` 定义一些 Shirt，例如：
+
+{{% code_sample file="customresourcedefinition/shirt-resources.yaml" %}}
+
+<!--
+Create the custom resources:
+-->
+创建自定义资源：
+
+```shell
+kubectl apply -f https://k8s.io/examples/customresourcedefinition/shirt-resources.yaml
+```
+
+<!--
+Get all the resources:
+-->
+获取所有资源：
+
+```shell
+kubectl get shirts.stable.example.com
+```
+
+<!--
+The output is:
+-->
+输出为：
+
+```
+NAME       COLOR  SIZE
+example1   blue   S
+example2   blue   M
+example3   green  M
+```
+
+<!--
+Fetch blue shirts (retrieve Shirts with a `color` of `blue`):
+-->
+获取蓝色 shirt（检索 `color` 为 `blue` shirt）：
+
+```shell
+kubectl get shirts.stable.example.com --field-selector spec.color=blue
+```
+
+<!--
+Should output:
+-->
+应当输出：
+
+```
+NAME       COLOR  SIZE
+example1   blue   S
+example2   blue   M
+```
+
+<!--
+Get only resources with a `color` of `green` and a `size` of `M`:
+-->
+仅获取 `color` 为 `green`、`size` 为 `M` 的资源：
+
+```shell
+kubectl get shirts.stable.example.com --field-selector spec.color=green,spec.size=M
+```
+
+<!--
+Should output:
+-->
+应当输出：
+
+```
+NAME       COLOR  SIZE
+example2   blue   M
+```
 
 <!--
 ### Subresources
@@ -2832,6 +2979,59 @@ Save the CustomResourceDefinition to `resourcedefinition.yaml`:
 
 将此 CustomResourceDefinition 保存到 `resourcedefinition.yaml` 文件：
 
+<!--
+```yaml
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: crontabs.stable.example.com
+spec:
+  group: stable.example.com
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                cronSpec:
+                  type: string
+                image:
+                  type: string
+                replicas:
+                  type: integer
+            status:
+              type: object
+              properties:
+                replicas:
+                  type: integer
+                labelSelector:
+                  type: string
+      # subresources describes the subresources for custom resources.
+      subresources:
+        # status enables the status subresource.
+        status: {}
+        # scale enables the scale subresource.
+        scale:
+          # specReplicasPath defines the JSONPath inside of a custom resource that corresponds to Scale.Spec.Replicas.
+          specReplicasPath: .spec.replicas
+          # statusReplicasPath defines the JSONPath inside of a custom resource that corresponds to Scale.Status.Replicas.
+          statusReplicasPath: .status.replicas
+          # labelSelectorPath defines the JSONPath inside of a custom resource that corresponds to Scale.Status.Selector.
+          labelSelectorPath: .status.labelSelector
+  scope: Namespaced
+  names:
+    plural: crontabs
+    singular: crontab
+    kind: CronTab
+    shortNames:
+    - ct
+```
+-->
 ```yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
@@ -3084,9 +3284,7 @@ crontabs/my-new-cron-object   3s
 
 * Serve [multiple versions](/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/) of a
   CustomResourceDefinition.
-
 -->
 * 阅读了解[定制资源](/zh-cn/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 * 参阅 [CustomResourceDefinition](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/#customresourcedefinition-v1-apiextensions-k8s-io)
 * 参阅支持 CustomResourceDefinition 的[多个版本](/zh-cn/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/)
-
